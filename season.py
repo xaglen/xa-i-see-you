@@ -161,13 +161,11 @@ def main():
     #logger.addHandler(journald_handler)
     logger.setLevel(logging.INFO)
 
-    slack_token=settings.SLACK_TOKEN
-
     open_season = settings.OPEN_SEASON
     close_season = settings.CLOSE_SEASON
     season_title = settings.SEASON_TITLE
 
-    client = WebClient(token=slack_token)
+    client = WebClient(token=settings.SLACK_TOKEN)
 
     #pp = pprint.PrettyPrinter(indent=4)
     #pp.pprint(conversation_history)
