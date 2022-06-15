@@ -251,6 +251,5 @@ def main():
     execution_time = (time.time() - start_time)
     print('Execution time in seconds: ' + str(execution_time))
 
-# Here's our payoff idiom!
 if __name__ == '__main__':
     main()
