@@ -1,4 +1,4 @@
-# xa-i-see-you
+# xa_i_see_you
 
 Tallies photos posted to the xa-i-see-you channel. 
 
