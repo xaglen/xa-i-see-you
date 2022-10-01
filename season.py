@@ -51,6 +51,8 @@ def generate_message(season_title, tally):
     """
 #    close_season=close_season-timedelta(seconds=1) #moves back from midnight the following day
 
+    season_short_title = season_title.split(' ', 1)[0]
+
     leaderboard = Counter(tally['posters']).most_common(3)
     ninjas = Counter(tally['stealthy']).most_common(3)
     ducks = Counter(tally['sniped']).most_common(3)
@@ -62,7 +64,8 @@ def generate_message(season_title, tally):
     title = "I See You Leaderboard: "+ season_title
 
     slack_message = '''
-        [{"type": "section",
+	[
+        {"type": "section",
         "text": {
         "type": "mrkdwn",
         "text": 
@@ -80,13 +83,13 @@ def generate_message(season_title, tally):
     if tally['num_snipes'] > 0:
         if tally['dubious_snipes']==0:
             slack_message+='"*{}* total confirmed snipes in {}: (:dart:)'.format(
-                    tally['num_snipes'], season_title
+                    tally['num_snipes'], season_short_title
                     )
         else:
             slack_message+=('"*{}* total confirmed snipes in {}:'
                             '(:dart:), including *{}* dubious snipes'
                             '(:waldo-6066: :magnify:)').format(
-                                tally['num_snipes'], season_title, tally['dubious_snipes']
+                                tally['num_snipes'], season_short_title, tally['dubious_snipes']
                                 )
         if tally['fake_snipes']>0:
             slack_message+= (r"\XNEWLINE _and also {} rejected snipes"
@@ -114,20 +117,21 @@ def generate_message(season_title, tally):
         slack_message+="<@"+name[0]+'> *'+str(name[1])+'* '
     slack_message+='"}},'
 
-    slack_message += '''
-        {"type": "divider"},
-        {"type": "section",
-        "text": {
-        "type": "mrkdwn",
-        "text": ":ninja2: *The Sneakiest*"}},
-        {"type":"section",
-        "text": {
-        "type": "mrkdwn",
-        '''
-    slack_message+='"text": "'
-    for name in ninjas:
-        slack_message+="<@"+name[0]+'> *'+str(name[1])+'* '
-    slack_message+='"}},'
+    if len(tally['stealthy'])>0:
+        slack_message += '''
+            {"type": "divider"},
+            {"type": "section",
+            "text": {
+            "type": "mrkdwn",
+            "text": ":ninja2: *The Sneakiest*"}},
+            {"type":"section",
+            "text": {
+            "type": "mrkdwn",
+            '''
+        slack_message+='"text": "'
+        for name in ninjas:
+            slack_message+="<@"+name[0]+'> *'+str(name[1])+'* '
+        slack_message+='"}},'
 
     slack_message += '''
         {"type": "divider"},
@@ -164,6 +168,7 @@ def main():
     open_season = settings.OPEN_SEASON
     close_season = settings.CLOSE_SEASON
     season_title = settings.SEASON_TITLE
+    season_short_title = settings.SEASON_SHORT_TITLE
 
     client = WebClient(token=settings.SLACK_TOKEN)
 
@@ -213,7 +218,7 @@ def main():
 
     slack_message = generate_message(season_title, tally)
 
-    print(str(slack_message))
+    print("JSON:\n"+str(slack_message))
 
     #data = json.loads(slack_message)
 
@@ -228,12 +233,12 @@ def main():
         )
     except SlackApiError as e:
         # You will get a SlackApiError if "ok" is False
-        message = "Slack error posting tally"
-        message += " "+repr(e)
-        message += " "+repr(e.response)
+        message = "\nSlackApiError: Slack error posting tally\n"
+        message += " "+repr(e)+"\n"
+        message += " "+repr(e.response)+"\n"
         logger.info(message)
-        #        print(message)
-        #        print(e)
+        print(message)
+        print(e)
     except TypeError as e:
         message = "TypeError posting tally: "+ repr(e)
         logger.info(message)
