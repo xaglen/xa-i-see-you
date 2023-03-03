@@ -47,8 +47,8 @@ def fetch_candidates():
             return candidates
 
         for value in values:
-            print(value)
-            candidates.append(value)
+            print(value[2])
+            candidates.append(value[2])
 
     exit()
 
