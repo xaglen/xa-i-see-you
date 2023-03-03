@@ -47,10 +47,8 @@ def fetch_candidates():
             return candidates
 
         for value in values:
-            print(value[2])
+            #print(value[2]) # format is First Name, Last Name, Slack ID, Birthday
             candidates.append(value[2])
-
-    exit()
 
     return candidates
 
@@ -198,6 +196,8 @@ def main():
 
     overlooked=fetch_candidates()
 
+    print("Potential: " + len(overlooked))
+
     conversation_history = fetch_activity(
             client,
             settings.READ_CHANNEL_ID,
@@ -217,6 +217,8 @@ def main():
                     for hit in hits:
                         overlooked.remove(hit)
                 #else was a bot
+
+    print ("Overlooked: " + len(overlooked))
 
     exit()
     slack_message = generate_message(season_title, tally)
