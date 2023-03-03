@@ -209,7 +209,10 @@ def main():
         #timestamp = datetime.fromtimestamp(ts)
         if open_season.timestamp() <= ts < close_season.timestamp():
             if 'user' in message and 'files' in message:
-                overlooked.remove(message['user'])
+                try:
+                    overlooked.remove(message['user'])
+                except:
+                    print(message['user'])
             if 'text' in message:
                 if '@' in message['text']:
                     regex = r'\<\@(.*?)\>'
