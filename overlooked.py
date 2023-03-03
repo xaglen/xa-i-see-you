@@ -196,7 +196,7 @@ def main():
 
     overlooked=fetch_candidates()
 
-    print("Potential: " + len(overlooked))
+    print("Potential: {}".format(len(overlooked)))
 
     conversation_history = fetch_activity(
             client,
@@ -218,7 +218,7 @@ def main():
                         overlooked.remove(hit)
                 #else was a bot
 
-    print ("Overlooked: " + len(overlooked))
+    print ("Overlooked: {}".format(len(overlooked)))
 
     exit()
     slack_message = generate_message(season_title, tally)
