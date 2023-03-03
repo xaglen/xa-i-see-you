@@ -116,7 +116,7 @@ def generate_message(season_title, tally):
         "type":"mrkdwn",
         "text":
         '''
-        slack_message+='"'
+    slack_message+='"'
 
     slack_message+='''
         }
