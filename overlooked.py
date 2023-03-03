@@ -215,7 +215,10 @@ def main():
                     regex = r'\<\@(.*?)\>'
                     hits = re.findall(regex, message['text'])
                     for hit in hits:
-                        overlooked.remove(hit)
+                        try:
+                            overlooked.remove(hit)
+                        except:
+                            print(hit)
                 #else was a bot
 
     print ("Overlooked: {}".format(len(overlooked)))
