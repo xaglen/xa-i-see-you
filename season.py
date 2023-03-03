@@ -88,12 +88,12 @@ def generate_message(season_title, tally):
         else:
             slack_message+=('"*{}* total confirmed snipes in {}:'
                             '(:dart:), including *{}* dubious snipes'
-                            '(:waldo-6066: :magnify:)').format(
+                            '(:waldo-6066:/:magnify:/:x:)').format(
                                 tally['num_snipes'], season_short_title, tally['dubious_snipes']
                                 )
         if tally['fake_snipes']>0:
             slack_message+= (r"\XNEWLINE _and also {} rejected snipes"
-                             "(:waldo-6066: or :magnify: instead of :dart:)_").format(
+                             "(:waldo-6066: :magnify: or :x: with no :dart:)_").format(
                                 str(tally['fake_snipes'])
                                 )
         slack_message = slack_message.replace('XNEWLINE','n')
@@ -201,9 +201,9 @@ def main():
                         if 'dart' in reaction['name']:
                             tally['num_snipes'] = tally['num_snipes']+1
                             tally['posters'].append(message['user'])
-                            if 'waldo' in reaction['name'] or 'mag' in reaction['name']:
+                            if 'waldo' in reaction['name'] or 'mag' in reaction['name'] or reaction['name']=='x':
                                 tally['dubious_snipes'] = tally['dubious_snipes'] +1
-                        elif 'waldo' in reaction['name'] or 'mag' in reaction['name']:
+                        elif 'waldo' in reaction['name'] or 'mag' in reaction['name'] or reaction['name']=='x':
                             tally['fake_snipes'] = tally['fake_snipes']+1
                         if 'ninja' in reaction['name']:
                             tally['stealthy'].append(message['user'])
