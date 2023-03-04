@@ -84,7 +84,13 @@ def fetch_candidates():
             print(message)
             print(e)
 
-        print(resp['members'])
+        print("{} candidates".format(len(candidates)))
+
+        for member in resp['members']:
+            candidates.add(member)
+
+        print("After adding members, {} candidates".format(len(candidates)))
+
         exit()
 
     return candidates
