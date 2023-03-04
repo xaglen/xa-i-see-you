@@ -151,7 +151,7 @@ def main():
     overlooked=fetch_candidates()
 
     print("Potential: {}".format(len(overlooked)))
-    print("Type of items in the list: {}".format(type(overlooked[0])))
+    #print("Type of items in the list: {}".format(type(overlooked[0])))
 
     conversation_history = fetch_activity(
             client,
@@ -177,8 +177,8 @@ def main():
             #else was a bot
 
     print ("Overlooked: {}".format(len(overlooked)))
-    print("Type of hits attempting to remove from the list: {}".format(type(hit)))
-    print("Type of users attempting to remove from the list: {}".format(type(message['user'])))
+    #print("Type of hits attempting to remove from the list: {}".format(type(hit)))
+    #print("Type of users attempting to remove from the list: {}".format(type(message['user'])))
 
     final_overlooked = {}
 
