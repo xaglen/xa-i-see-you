@@ -84,7 +84,7 @@ def fetch_candidates():
             print(message)
             print(e)
 
-        print resp['members']
+        print(resp['members'])
         exit()
 
     return candidates
