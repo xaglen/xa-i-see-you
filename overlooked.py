@@ -68,7 +68,7 @@ def fetch_candidates():
 
         for value in values:
             #print(value[2]) # format is First Name, Last Name, Slack ID, Birthday
-            candidates.append(value[2])
+            candidates.add(value[2])
 
         client = WebClient(token=settings.SLACK_TOKEN)
         try:
@@ -184,7 +184,7 @@ def main():
 
     for person in overlooked:
         print(get_name(person))
-        final_overlooked.append("<@" + person + ">")
+        final_overlooked.add("<@" + person + ">")
 
     try:
         title = "Overlooked In I-See-You: "+ season_title
