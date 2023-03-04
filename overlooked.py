@@ -164,9 +164,9 @@ def main():
     print("Type of users attempting to remove from the list: {}".format(type(message['user'])))
 
 
-#    for person in overlooked:
-#        print(get_name(person))
-
+    for person in overlooked:
+        print(get_name(person))
+    exit()
     try:
         title = "Overlooked In I-See-You: "+ season_title
         resp=client.chat_postMessage(
