@@ -41,7 +41,7 @@ def get_name(user_id):
 
 
 def fetch_candidates():
-    candidates = {}
+    candidates = set()
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -169,12 +169,8 @@ def main():
                     regex = r'\<\@(.*?)\>'
                     hits = re.findall(regex, message['text'])
                     for hit in hits:
-                        try:
-                            overlooked.remove(hit)
-                        except:
-                            #print(hit)
-                            pass
-                #else was a bot
+                        overlooked.discard(hit)
+            #else was a bot
 
     print ("Overlooked: {}".format(len(overlooked)))
     print("Type of hits attempting to remove from the list: {}".format(type(hit)))
