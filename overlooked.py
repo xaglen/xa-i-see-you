@@ -172,7 +172,7 @@ def main():
     try:
         title = "Overlooked In I-See-You: "+ season_title
         resp=client.chat_postMessage(
-            channel=settings.WRITE_CHANNEL_ID,
+            channel=settings.OVERLOOKED_WRITE_CHANNEL_ID,
             text="Not tagged nor taggers in I See You last month: " + " ".join(final_overlooked)
         )
     except SlackApiError as e:
