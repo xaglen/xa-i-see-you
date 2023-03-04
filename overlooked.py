@@ -102,93 +102,6 @@ def fetch_activity(client = None, channel=None, open_season=None, close_season=N
 
     return conversation_history
 
-def generate_message(season_title, tally):
-    """
-    Creates BlockKit message to post to Slack.
-    """
-#    close_season=close_season-timedelta(seconds=1) #moves back from midnight the following day
-
-    season_short_title = season_title.split(' ', 1)[0]
-
-    title = "Overlooked in I-See-You: "+ season_title
-
-    slack_message = ""
-
-    for person in overlooked:
-        slack_message += person
-
-    slack_message = '''
-	[
-        {"type": "section",
-        "text": {
-        "type": "mrkdwn",
-        "text": 
-        '''
-    slack_message+= '"*'+title+'*"'
-    slack_message+= '''
-        }
-        },
-        {"type": "divider"},
-        {"type": "section",
-        "text": {
-        "type":"mrkdwn",
-        "text":
-        '''
-    slack_message+='"'
-
-    slack_message+='''
-        }
-        },
-        '''
-    slack_message+= '''
-        {"type": "section",
-        "text": {
-        "type": "mrkdwn",
-        "text": ":camera_with_flash: *The Snipers*"}},
-        {"type":"section",
-        "text": {
-        "type": "mrkdwn",
-        '''
-    slack_message+='"text": "'
-    for name in leaderboard:
-        slack_message+="<@"+name[0]+'> *'+str(name[1])+'* '
-    slack_message+='"}},'
-
-    if len(tally['stealthy'])>0:
-        slack_message += '''
-            {"type": "divider"},
-            {"type": "section",
-            "text": {
-            "type": "mrkdwn",
-            "text": ":ninja2: *The Sneakiest*"}},
-            {"type":"section",
-            "text": {
-            "type": "mrkdwn",
-            '''
-        slack_message+='"text": "'
-        for name in ninjas:
-            slack_message+="<@"+name[0]+'> *'+str(name[1])+'* '
-        slack_message+='"}},'
-
-    slack_message += '''
-        {"type": "divider"},
-        {"type": "section",
-        "text": {
-        "type": "mrkdwn",
-        "text": ":duck: *The Most Sniped*"}},
-        {"type": "section",
-        "text": {
-        "type": "mrkdwn",
-        '''
-    slack_message+='"text": "'
-
-    for name in ducks:
-        slack_message+="<@"+name[0]+'> *'+str(name[1])+'* '
-    slack_message+='"}}'
-
-    slack_message += ']'
-
-    return slack_message
 
 def main():
     """
@@ -251,24 +164,14 @@ def main():
     print("Type of users attempting to remove from the list: {}".format(type(message['user'])))
 
 
-    for person in overlooked:
-        print(get_name(person))
-
-    exit()
-    slack_message = generate_message(season_title, tally)
-
-    print("JSON:\n"+str(slack_message))
-
-    #data = json.loads(slack_message)
-
-    #print(str(data))
+#    for person in overlooked:
+#        print(get_name(person))
 
     try:
-        title = "I See You Leaderboard: "+ season_title
+        title = "Overlooked In I-See-You: "+ season_title
         resp=client.chat_postMessage(
             channel=settings.WRITE_CHANNEL_ID,
-            blocks=slack_message,
-            text=title
+            text=" ".join(overlooked)
         )
     except SlackApiError as e:
         # You will get a SlackApiError if "ok" is False
