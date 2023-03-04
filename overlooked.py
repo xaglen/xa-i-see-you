@@ -180,7 +180,7 @@ def main():
     #print("Type of hits attempting to remove from the list: {}".format(type(hit)))
     #print("Type of users attempting to remove from the list: {}".format(type(message['user'])))
 
-    final_overlooked = {}
+    final_overlooked = set()
 
     for person in overlooked:
         print(get_name(person))
