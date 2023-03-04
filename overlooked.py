@@ -41,7 +41,7 @@ def get_name(user_id):
 
 
 def fetch_candidates():
-    candidates = []
+    candidates = {}
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -69,6 +69,23 @@ def fetch_candidates():
         for value in values:
             #print(value[2]) # format is First Name, Last Name, Slack ID, Birthday
             candidates.append(value[2])
+
+        client = WebClient(token=settings.SLACK_TOKEN)
+        try:
+            resp = client.conversations_members(
+                channel="C03PWTSSE04", #xa-members
+                limit=200 #max 1000, default 100
+            )
+        except SlackApiError as e:
+            # You will get a SlackApiError if "ok" is False
+            message = "\nSlackApiError: Slack error retrieving members\n"
+            message += " " + repr(e) + "\n"
+            message += " " + repr(e.response) + "\n"
+            print(message)
+            print(e)
+
+        print resp['members']
+        exit()
 
     return candidates
 
@@ -163,7 +180,7 @@ def main():
     print("Type of hits attempting to remove from the list: {}".format(type(hit)))
     print("Type of users attempting to remove from the list: {}".format(type(message['user'])))
 
-    final_overlooked = []
+    final_overlooked = {}
 
     for person in overlooked:
         print(get_name(person))
