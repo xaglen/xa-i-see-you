@@ -20,6 +20,26 @@ from google.oauth2 import service_account
 import settings
 
 
+def get_name(user_id):
+
+    if "|" in user_id:
+        user_id = user_id.split("|")
+        user_id = user_id[0]
+
+    client = WebClient(token=settings.SLACK_TOKEN)
+    try:
+        resp = client.users_profile_get(user=user_id)
+        name = resp['profile']['display_name']
+        if not name:
+            name = resp['profile']['real_name']
+
+    except SlackApiError as e:
+        name = "<@" + user_id + ">"
+
+    return name
+
+
+
 def fetch_candidates():
     candidates = []
     creds = None
@@ -230,6 +250,9 @@ def main():
     print("Type of hits attempting to remove from the list: {}".format(type(hit)))
     print("Type of users attempting to remove from the list: {}".format(type(message['user'])))
 
+
+    for person in overlooked:
+        print(get_name(person))
 
     exit()
     slack_message = generate_message(season_title, tally)
