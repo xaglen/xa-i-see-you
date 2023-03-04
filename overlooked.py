@@ -91,8 +91,6 @@ def fetch_candidates():
 
         print("After adding members, {} candidates".format(len(candidates)))
 
-        exit()
-
     return candidates
 
 def fetch_activity(client = None, channel=None, open_season=None, close_season=None):
