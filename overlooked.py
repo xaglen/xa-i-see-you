@@ -163,15 +163,17 @@ def main():
     print("Type of hits attempting to remove from the list: {}".format(type(hit)))
     print("Type of users attempting to remove from the list: {}".format(type(message['user'])))
 
+    final_overlooked = []
 
     for person in overlooked:
         print(get_name(person))
-    exit()
+        final_overlooked.append("<@" + person + ">")
+
     try:
         title = "Overlooked In I-See-You: "+ season_title
         resp=client.chat_postMessage(
             channel=settings.WRITE_CHANNEL_ID,
-            text=" ".join(overlooked)
+            text="Not tagged nor taggers in I See You last month: " + " ".join(final_overlooked)
         )
     except SlackApiError as e:
         # You will get a SlackApiError if "ok" is False
